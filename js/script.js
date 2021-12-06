@@ -117,7 +117,7 @@ function generateTags(){
 
     /* find tags wrapper */
 
-    const tagsWrapper = article.querySelector(optArticleTagsSelector);
+    const titleList = article.querySelector(optArticleTagsSelector);
 
     /* make html variable with empty string */
 
@@ -144,7 +144,7 @@ function generateTags(){
 
       html = html + tagLinkHTML;
 
-    /* END LOOP: for each tag */
+      /* END LOOP: for each tag */
     
     }
 
@@ -152,7 +152,10 @@ function generateTags(){
 
     titleList.innerHTML = html;
 
-  /* END LOOP: for every article: */
+    /* END LOOP: for every article: */
+
+  }
+
 }
 
 generateTags();
