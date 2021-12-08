@@ -58,6 +58,7 @@ const optArticleSelector = '.post',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
   optArticleAuthorSelector = '.post-author';
+  //optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = ''){       //pytanie do mentora
 
@@ -108,6 +109,10 @@ generateTitleLinks();
 
 
 function generateTags(){
+  /* [NEW] create a new variable allTags with an empty array */
+
+  let allTags = [];
+
   /* find all articles */
 
   const articles = document.querySelectorAll(optArticleSelector);
@@ -145,6 +150,12 @@ function generateTags(){
 
       html = html + tagLinkHTML;
 
+      /* [NEW] check if this link is NOT already in allTags */
+      if(allTags.indexOf(tagLinkHTML) == -1){
+        /* [NEW] add generated code to allTags array */
+        allTags.push(tagLinkHTML);
+      }
+
       /* END LOOP: for each tag */
     
     }
@@ -156,6 +167,12 @@ function generateTags(){
     /* END LOOP: for every article: */
 
   }
+
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
+
+  /* [NEW] add html from allTags to tagList */
+  tagList.innerHTML = allTags.join(' ');
 
 }
 
