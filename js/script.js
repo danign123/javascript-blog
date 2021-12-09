@@ -305,6 +305,46 @@ addClickListenersToTags();
 
 
 
+
+
+
+function calculateAuthorParams(authors) {
+
+  const authorParams = {max: 0, min: 999999};
+
+  for(let author in authors){
+    console.log(author + ' is used ' + authors[author] + ' times');
+    if(authors[author] > authorParams.max){
+      authorParams.max = authors[author];
+    }
+    if(authors[author] < authorParams.min){
+      authorParams.min = authors[author];
+    }
+  }
+
+  return authorParams;
+}
+
+
+function calculateAuthorClass(count, params){
+
+  const normalizedCount = count - params.min;
+
+  const normalizedMax = params.max - params.min;
+
+  const percentage = normalizedCount / normalizedMax;
+
+  const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
+
+
+  return optCloudClassPrefix + classNumber;
+
+}
+
+
+
+
+
 function generateAuthors(){
 
   //NEW
@@ -324,9 +364,37 @@ function generateAuthors(){
       
     html = html + authorLinkHTML;
 
+    //NEW
+    if(!allAuthors.hasOwnProperty(article)){
+
+      allAuthors[article] = 1;
+
+    } else {
+
+      allAuthors[article]++;
+
+    }
+
     titleList.innerHTML = html;
 
   }
+
+  const authorsList = document.querySelector(optAuthorsListSelector);
+
+  const authorParams = calculateAuthorParams(allAuthors);
+  console.log('authorParams', authorParams);
+
+  let allAuthorsHTML = '';
+
+  for(let author in allAuthors){
+
+    const authorLinkHTML = '<li><a class="' + calculateAuthorClass(allAuthors[author], authorParams) + '" href="#author-' + author + '">' + author + '</a></li>';
+    allAuthorsHTML += authorLinkHTML;
+    console.log('authorLinkHTML:', authorLinkHTML);
+
+  }
+
+  authorsList.innerHTML = allAuthorsHTML;
 
 }
 
