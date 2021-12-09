@@ -57,7 +57,10 @@ const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
-  optArticleAuthorSelector = '.post-author';
+  optArticleAuthorSelector = '.post-author',
+  optCloudClassCount = '5',
+  optCloudClassPrefix = 'tag-size-',
+  optAuthorsListSelector = '.authors';
   //optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = ''){       //pytanie do mentora
@@ -108,6 +111,40 @@ function generateTitleLinks(customSelector = ''){       //pytanie do mentora
 generateTitleLinks();
 
 
+function calculateTagsParams(tags) {
+
+  const params = {max: 0, min: 999999};
+
+  for(let tag in tags){
+    console.log(tag + ' is used ' + tags[tag] + ' times');
+    if(tags[tag] > params.max){
+      params.max = tags[tag];
+    }
+    if(tags[tag] < params.min){
+      params.min = tags[tag];
+    }
+  }
+
+  return params;
+}
+
+
+function calculateTagClass(count, params){
+
+  const normalizedCount = count - params.min;
+
+  const normalizedMax = params.max - params.min;
+
+  const percentage = normalizedCount / normalizedMax;
+
+  const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
+
+
+  return optCloudClassPrefix + classNumber;
+
+}
+
+
 function generateTags(){
   /* [NEW] create a new variable allTags with an empty object */
 
@@ -144,7 +181,7 @@ function generateTags(){
 
       /* generate HTML of the link */
 
-      const tagLinkHTML = '<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li>';
+      const tagLinkHTML = '<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li> ';
       
       /* add generated code to html variable */
 
@@ -174,13 +211,22 @@ function generateTags(){
   const tagList = document.querySelector('.tags');
 
   /* [NEW] create variable for all links HTML code */
+  const tagsParams = calculateTagsParams(allTags);
+  console.log('tagsParams:', tagsParams);
   let allTagsHTML = '';
 
   /* [NEW] START LOOP: for each tag in all Tags: */
   for(let tag in allTags){
     /* [NEW] generate code of a link and add it to allTagsHTML */
-    allTagsHTML += '<li><a href="#tag-' + tag + '">' + tag + '</a>' + ' (' + allTags[tag] + ')</li> ';
+
+    //allTagsHTML += '<li><a href="#tag-' + tag + '">' + tag + '</a>' + ' (' + allTags[tag] + ')</li> ';
+    
+    const tagLinkHTML = '<li><a class="' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag + '">' + tag + '</a></li>';
+    allTagsHTML += tagLinkHTML;
+    console.log('taglinkHTML:', tagLinkHTML);
   }
+
+
   /* [NEW] END LOOP: for each tag in allTags: */
 
   /* [NEW] add html from allTagsHTML to tagList */
@@ -260,6 +306,9 @@ addClickListenersToTags();
 
 
 function generateAuthors(){
+
+  //NEW
+  let allAuthors = {};
 
   const articles = document.querySelectorAll(optArticleSelector);
 
