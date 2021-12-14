@@ -269,6 +269,7 @@ function calculateAuthorParams(authors) {
 }
 
 
+
 function calculateAuthorClass(countAuthor, authorParams){
 
   const normalizedCount = countAuthor - authorParams.min;
@@ -277,7 +278,7 @@ function calculateAuthorClass(countAuthor, authorParams){
 
   const percentage = normalizedCount / normalizedMax;
 
-  const classNumber = Math.floor( percentage * (optCloudClassCountAuthor - 1) + 1 );
+  const classNumber = Math.floor (percentage * (optCloudClassCountAuthor - 1) + 1 );
 
 
   return optCloudClassPrefixAuthor + classNumber;
@@ -332,6 +333,9 @@ function generateAuthors(){
   for(let author in allAuthors){
 
     const authorLinkHTML = '<li><a class="' + calculateAuthorClass(allAuthors[author], authorParams) + '" href="#author-' + author + '">' + author + '</a></li>';
+
+    //const authorLinkHTML = '<li><a href="#author-' + author + '">' + author + ' (' + allAuthors[author] +') ' + '</a></li> ';
+
     allAuthorsHTML += authorLinkHTML;
     console.log('authorLinkHTML:', authorLinkHTML);
 
@@ -342,6 +346,15 @@ function generateAuthors(){
 }
 
 generateAuthors();
+
+
+
+
+
+
+
+
+
 
 
 
