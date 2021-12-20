@@ -5,7 +5,7 @@ const templates = {
   authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
   tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
   authorCloudLink: Handlebars.compile(document.querySelector('#template-author-cloud-link').innerHTML),
-}
+};
 
 function titleClickHandler(event){
   event.preventDefault();
@@ -215,7 +215,7 @@ function generateAuthors(){
     allAuthorsData.authors.push({
       author: author,
       count: allAuthors[author],
-    })
+    });
   }
   authorsList.innerHTML = templates.authorCloudLink(allAuthorsData);
 }
